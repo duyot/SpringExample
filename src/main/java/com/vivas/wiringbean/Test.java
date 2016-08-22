@@ -10,8 +10,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Test {
     public static void main(String[] args) {
-       int a = 3;
-        Integer b = 3;
+        Long a = 0L;
+        long b = 0l;
+
+        System.out.println(a == 0L);
+        System.out.println(a == 0);
         System.out.println(a == b);
+
+
+        System.out.println(a.equals(0L));
+        System.out.println(a.equals(0 ));
+        System.out.println(a.equals(b ));
     }
 }
