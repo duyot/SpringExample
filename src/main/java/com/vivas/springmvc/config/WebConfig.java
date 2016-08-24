@@ -30,19 +30,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-//    @Bean
-//    public ViewResolver viewResolverUserManagerment() {
-//        UrlBasedViewResolver resolver =
-//                new UrlBasedViewResolver();
-//        resolver.setViewClass(JSF);
-//        resolver.setPrefix("/WEB-INF/views/usermanagerment");
-//        resolver.setSuffix(".jsp");
-//        resolver.setExposeContextBeansAsAttributes(true);
-//        resolver.setOrder(1);
-//        return resolver;
-//    }
-
-
     @Override
     public void configureDefaultServletHandling(
             DefaultServletHandlerConfigurer configurer) {

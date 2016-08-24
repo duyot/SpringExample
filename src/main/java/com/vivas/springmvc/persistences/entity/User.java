@@ -1,4 +1,4 @@
-package com.vivas.springmvc.model;
+package com.vivas.springmvc.persistences.entity;
 
 
 import javax.validation.constraints.NotNull;

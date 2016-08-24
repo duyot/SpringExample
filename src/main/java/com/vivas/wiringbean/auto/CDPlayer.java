@@ -9,6 +9,8 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -38,15 +40,20 @@ public class CDPlayer {
         Locale.setDefault(new Locale("vi", "VN"));
 //        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         ApplicationContext context = new GenericXmlApplicationContext("beans.xml");
-        CDPlayer cdPlayer = (CDPlayer) context.getBean("cdplayer");
-//        Billboard billboard = (Billboard) context.getBean("billboard");
-        Billboard billboard = context.getBean("billboard",Billboard.class);
-        cdPlayer.play();
-        billboard.play();
-        System.out.println(BundleUtils.getString("language"));
 
-        Locale.setDefault(new Locale("en","US"));
-        System.out.println(BundleUtils.getString("language"));
-        System.exit(0);
+        DataSource cdPlayer = (DataSource) context.getBean("dataSource");
+        System.out.println(cdPlayer.toString());
+
+        System.out.println(Arrays.asList(context.getBeanDefinitionNames()));
+//        System.out.println(cdPlayer.toString());
+//        Billboard billboard = (Billboard) context.getBean("billboard");
+//        Billboard billboard = context.getBean("billboard",Billboard.class);
+//        cdPlayer.play();
+//        billboard.play();
+//        System.out.println(BundleUtils.getString("language"));
+//
+//        Locale.setDefault(new Locale("en","US"));
+//        System.out.println(BundleUtils.getString("language"));
+//        System.exit(0);
     }
 }

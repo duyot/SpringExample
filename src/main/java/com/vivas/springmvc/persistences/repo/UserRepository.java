@@ -1,6 +1,6 @@
-package com.vivas.springmvc.repo;
+package com.vivas.springmvc.persistences.repo;
 
-import com.vivas.springmvc.model.User;
+import com.vivas.springmvc.persistences.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

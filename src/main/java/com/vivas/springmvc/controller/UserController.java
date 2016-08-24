@@ -1,7 +1,9 @@
 package com.vivas.springmvc.controller;
 
-import com.vivas.springmvc.model.User;
-import com.vivas.springmvc.repo.UserRepository;
+import com.vivas.springmvc.business.businessinterface.AdminUserBusinessInterface;
+import com.vivas.springmvc.business.businessinterface.UserBusinessInterface;
+import com.vivas.springmvc.persistences.entity.User;
+import com.vivas.springmvc.persistences.repo.UserRepository;
 import com.vivas.springmvc.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,12 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserBusinessInterface userBusinessInterface;
+
+    @Autowired
+    AdminUserBusinessInterface adminUserBusinessInterface;
 
     //----------------------home--------------------------
     @RequestMapping(method = RequestMethod.GET)
@@ -50,7 +58,7 @@ public class UserController {
 
     @RequestMapping(value = "/listofuser",method = RequestMethod.GET)
     public String showListOfUser(Model model){
-        model.addAttribute("listUser",userRepository.getAllUsers());
+        model.addAttribute("listUser",adminUserBusinessInterface.getAlls());
         return Constants.VIEW.USER_CP_MAIN.LIST_OF_USER;
     }
 
@@ -62,7 +70,7 @@ public class UserController {
 
     @RequestMapping(value = "/finduser/{username}",method = RequestMethod.GET)
     public String getUserById(Model model,@PathVariable String username){
-        model.addAttribute("listUser",userRepository.getUserByNamNPass(username,"abc"));
+        model.addAttribute("listUser",userRepository.getUserByNamNPass(username,"businessinterface"));
         return Constants.VIEW.USER_CP_MAIN.LIST_OF_USER;
     }
 }

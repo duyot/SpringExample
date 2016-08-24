@@ -11,6 +11,15 @@
                           "
        >
 
+
+    <!--<bean id="dataSource"-->
+          <!--class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="oracle.jdbc.OracleDriver" />-->
+        <!--<property name="url" value="jdbc:oracle:thin:@10.84.70.116:1521:DEVMKT" />-->
+        <!--<property name="username" value="sms_ads" />-->
+        <!--<property name="password" value="sms123" />-->
+    <!--</bean>-->
+
     <bean id="propertyConfigurer"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="location">
