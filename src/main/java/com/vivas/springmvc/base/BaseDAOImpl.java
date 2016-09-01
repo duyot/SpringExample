@@ -3,24 +3,36 @@ package com.vivas.springmvc.base;
 import com.google.common.collect.Lists;
 import com.vivas.springmvc.persistences.entity.User;
 import com.vivas.springmvc.utils.Constants;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by duyot on 8/24/2016.
  */
 @Repository
-public class BaseDAOImpl<T> implements BaseDAOInteface {
+public class BaseDAOImpl<T extends BaseModel,ID extends Serializable> implements BaseDAOInteface {
     @Autowired
     SessionFactory sessionFactory;
+
+    private Class<T> modelClass;
+
+    public void setModelClass(Class modelClass){
+        this.modelClass = modelClass;
+    }
 
     public Session getSession(){
         return sessionFactory.getCurrentSession();
@@ -31,12 +43,11 @@ public class BaseDAOImpl<T> implements BaseDAOInteface {
         Query query = getSession().createSQLQuery(queryString);
         query.setParameter("id", pattern);
         return query.list().get(0).toString();
-
     }
     //crud
     @Transactional
-    public String deleteById(long id,Class objectClass){
-        T object = (T)getSession().get(objectClass,id);
+    public String deleteById(long id){
+        T object = (T)getSession().get(modelClass,id);
         return deleteByObject(object);
     }
 
@@ -60,7 +71,21 @@ public class BaseDAOImpl<T> implements BaseDAOInteface {
             System.out.println(e.toString());
             return e.getMessage();
         }
-    }@Transactional
+    }
+
+    @Transactional
+    public String save(T obj) {
+        try {
+            long savedObjectId = (long) getSession().save(obj);
+            return savedObjectId +"";
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Transactional
     public String saveBySession(T obj,Session session) {
         try {
             long id = (long) session.save(obj);
@@ -72,12 +97,39 @@ public class BaseDAOImpl<T> implements BaseDAOInteface {
         }
     }
     //
-    //find
+    //GET
     @Transactional(readOnly = true)
-    public T findById(long id,Class objectClass) {
-        return (T)getSession().get(objectClass,id);
+    public List<T> getAll() {
+        return getSession().createCriteria(modelClass).list();
+    }
+
+    @Transactional(readOnly = true)
+    public List<T> getAllByPage(int pageNum, int countPerPage) {
+        Criteria c = sessionFactory.getCurrentSession().createCriteria(modelClass);
+        c.setMaxResults(countPerPage);
+        c.setFirstResult(pageNum * countPerPage);
+        return c.list();
+    }
+
+     @Transactional(readOnly = true)
+    public List<T> getList(int count) {
+        return getSession().createCriteria(modelClass).setMaxResults(count).list();
 
     }
+
+    //find
+    @Transactional(readOnly = true)
+    public T findById(long id) {
+        return getSession().get(modelClass,id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<T> findByProperty(String property,String value) {
+        return getSession().createCriteria(modelClass).add(Restrictions.eq(property,value)).list();
+    }
+
+
+
 
     //TODO test
     @Transactional(readOnly = true)
@@ -86,4 +138,6 @@ public class BaseDAOImpl<T> implements BaseDAOInteface {
         lstUser.add(new User("duyot","password in base dao"));
         return lstUser;
     }
+
+
 }

@@ -1,13 +1,16 @@
 package com.vivas.springmvc.persistences.entity;
 
 
+import com.vivas.springmvc.base.BaseDTO;
+import com.vivas.springmvc.base.BaseModel;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * Created by duyot on 8/22/2016.
  */
-public class User {
+public class User extends BaseModel {
 
     @NotNull
     @Size(min = 5)
@@ -38,5 +41,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public BaseDTO toDTO() {
+        return null;
     }
 }

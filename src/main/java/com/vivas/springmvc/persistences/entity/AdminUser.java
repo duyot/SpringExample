@@ -1,5 +1,8 @@
 package com.vivas.springmvc.persistences.entity;
 
+import com.vivas.springmvc.base.BaseDTO;
+import com.vivas.springmvc.base.BaseModel;
+import com.vivas.springmvc.dto.AdminUserDTO;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -11,7 +14,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "ADMIN_USER")
-public class AdminUser {
+@javax.persistence.SequenceGenerator(
+        name="sequence",
+        sequenceName="SEQ_ADMIN_USER"
+)
+public class AdminUser extends BaseModel{
     private Long userId;
     private String username;
     private String password;
@@ -32,12 +39,6 @@ public class AdminUser {
 
     @Id
     @GeneratedValue(generator = "sequence")
-    @GenericGenerator(name = "sequence", strategy = "sequence",
-            parameters = {
-                    @Parameter(name = "sequence", value = "ADMIN_USER_SEQ")
-            }
-    )
-
     @Column(name = "USER_ID", unique = true, nullable = false)
     public Long getUserId() {
         return userId;
@@ -81,5 +82,10 @@ public class AdminUser {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    @Override
+    public AdminUserDTO toDTO() {
+        return new AdminUserDTO(userId+"",username,password,status,createDate.toString());
     }
 }

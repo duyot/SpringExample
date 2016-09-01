@@ -13,6 +13,7 @@ public class Constants {
     public static class VIEW{
         public static String HOME = "index";
         public static String CHILD = "child";
+        public static String ERROR = "error";
 
         public static class HOME_SUBS{
             public static String USER_CP = "usermanagerment/usercp";

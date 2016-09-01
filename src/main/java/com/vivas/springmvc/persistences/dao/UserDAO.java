@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by duyot on 8/24/2016.
  */
 @Repository
-public class UserDAO extends BaseDAOImpl<User> {
+public class UserDAO extends BaseDAOImpl<User,Long> {
 
 
     public static void main(String[] args) {

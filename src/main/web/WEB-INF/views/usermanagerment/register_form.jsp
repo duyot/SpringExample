@@ -15,8 +15,8 @@
 </head>
 <body>
     <form method="post" >
-        Username: <input type="text" name="Username" /><br/>
-        Passwords: <input type="password" name="Password" /><br/>
+        Username: <input type="text" name="username" /><br/>
+        Passwords: <input type="password" name="password" /><br/>
         <input type="submit" value="Submit" />
     </form>
 
