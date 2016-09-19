@@ -3,10 +3,15 @@ package com.vivas.springmvc.persistences.entity;
 import com.vivas.springmvc.base.BaseDTO;
 import com.vivas.springmvc.base.BaseModel;
 import com.vivas.springmvc.dto.AdminUserDTO;
-import org.hibernate.annotations.GenericGenerator;
+import com.vivas.springmvc.utils.DateTimeUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -48,7 +53,7 @@ public class AdminUser extends BaseModel{
         this.userId = userId;
     }
 
-    @Column(name = "USER_NAME", nullable = false)
+    @Column(name = "USER_NAME",nullable = false)
     public String getUsername() {
         return username;
     }
@@ -86,6 +91,6 @@ public class AdminUser extends BaseModel{
 
     @Override
     public AdminUserDTO toDTO() {
-        return new AdminUserDTO(userId+"",username,password,status,createDate.toString());
+        return new AdminUserDTO(userId+"",username,password,status, DateTimeUtils.convertDateToString(createDate));
     }
 }

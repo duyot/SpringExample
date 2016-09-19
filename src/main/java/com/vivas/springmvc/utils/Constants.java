@@ -1,9 +1,13 @@
 package com.vivas.springmvc.utils;
 
+import com.sun.corba.se.spi.presentation.rmi.IDLNameTranslator;
+
 /**
  * Created by duyot on 8/18/2016.
  */
 public class Constants {
+
+    public static int BASE_BATCH_SIZE = 20;
 
     public static class RESULT{
         public static String SUCCESS = "SUCCESS";

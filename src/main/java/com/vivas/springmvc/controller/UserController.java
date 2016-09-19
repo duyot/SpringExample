@@ -3,6 +3,7 @@ package com.vivas.springmvc.controller;
 import com.vivas.springmvc.base.BaseBusinessInterface;
 import com.vivas.springmvc.business.businessinterface.AdminUserBusinessInterface;
 import com.vivas.springmvc.business.businessinterface.UserBusinessInterface;
+import com.vivas.springmvc.business.impl.AdminUserBusinessImpl;
 import com.vivas.springmvc.dto.AdminUserDTO;
 import com.vivas.springmvc.persistences.entity.User;
 import com.vivas.springmvc.persistences.repo.UserRepository;
@@ -39,6 +40,9 @@ public class UserController {
     @Autowired
     BaseBusinessInterface adminUserBusiness;
 
+    @Autowired
+    AdminUserBusinessInterface adminUserBusinessInterface;
+
     Logger log = LoggerFactory.getLogger(UserController.class);
 
     //----------------------home--------------------------
@@ -48,7 +52,7 @@ public class UserController {
     }
     //----------------------sub page-----------------------
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public String submitRegister(@Valid AdminUserDTO adminUserDTO, Errors errors){
+    public String submitRegister(AdminUserDTO adminUserDTO, Errors errors){
         //
         adminUserDTO.setStatus("1");
         adminUserDTO.setCreateDate(DateTimeUtils.convertDateToString(new Date()));
@@ -67,13 +71,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register",method = RequestMethod.GET)
-    public String showRegistrationForm(){
+    public String showRegistrationForm(Model model){
+        AdminUserDTO adminUserDTO = new AdminUserDTO();
+        adminUserDTO.setUsername("duyot");
+        adminUserDTO.setPassword("duyot");
+        model.addAttribute("adminUserDTO",adminUserDTO);
         return Constants.VIEW.USER_CP_MAIN.REGISTER_FORM;
     }
 
     @RequestMapping(value = "/listofuser",method = RequestMethod.GET)
     public String showListOfUser(Model model){
-        model.addAttribute("listUser",adminUserBusiness.getAll());
+        model.addAttribute("listUser",adminUserBusinessInterface.getAdminUserHQL());
         return Constants.VIEW.USER_CP_MAIN.LIST_OF_USER;
     }
 

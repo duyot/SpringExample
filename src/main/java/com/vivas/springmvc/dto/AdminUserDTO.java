@@ -1,19 +1,24 @@
 package com.vivas.springmvc.dto;
 
 import com.vivas.springmvc.base.BaseDTO;
-import com.vivas.springmvc.base.BaseModel;
 import com.vivas.springmvc.persistences.entity.AdminUser;
 import com.vivas.springmvc.utils.DateTimeUtils;
 import com.vivas.springmvc.utils.StringUtils;
+import org.hibernate.validator.constraints.Email;
 
-import java.util.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by duyot on 8/30/2016.
  */
 public class AdminUserDTO extends BaseDTO {
+
     private String userId;
+    @NotNull
+    @Size(min = 5,max = 16,message = "error username")
     private String username;
+    @Email(message = "error email")
     private String password;
     private String status;
     private String createDate;

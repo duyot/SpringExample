@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <!--BASE-->
+    <definition name="base" template="/WEB-INF/layout/page.jsp">
+        <put-attribute name="header"
+                       value="/WEB-INF/layout/header.jsp" />
+        <put-attribute name="footer"
+                       value="/WEB-INF/layout/footer.jsp" />
+    </definition>
+
+    <!--HOME-->
+    <definition name="index" extends="base">
+        <put-attribute name="body"
+                       value="/WEB-INF/views/index.jsp" />
+    </definition>
+
+    <!--USER MANAGEMENT-->
+    <definition name="usermanagerment/usercp" extends="base">
+        <put-attribute name="body"
+                       value="/WEB-INF/views/usermanagerment/usercp.jsp" />
+    </definition>
+
+    <definition name="usermanagerment/listofuser" extends="base">
+        <put-attribute name="body"
+                       value="/WEB-INF/views/usermanagerment/listofuser.jsp" />
+    </definition>
+
+    <definition name="usermanagerment/register_form" extends="base">
+        <put-attribute name="body"
+                       value="/WEB-INF/views/usermanagerment/register_form.jsp" />
+    </definition>
+    <!--OTHERS-->
+
+</tiles-definitions>

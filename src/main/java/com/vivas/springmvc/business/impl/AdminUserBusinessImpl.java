@@ -17,7 +17,7 @@ import java.util.List;
  * Created by duyot on 8/24/2016.
  */
 @Service("adminUserBusiness")
-public class AdminUserBusinessImpl extends BaseBusinessImpl<AdminUserDTO,AdminUserDAO>{
+public class AdminUserBusinessImpl extends BaseBusinessImpl<AdminUserDTO,AdminUserDAO,AdminUser> implements AdminUserBusinessInterface{
     @Autowired
     AdminUserDAO adminUserDAO;
 
@@ -27,6 +27,11 @@ public class AdminUserBusinessImpl extends BaseBusinessImpl<AdminUserDTO,AdminUs
         this.entityClass = AdminUserDTO.class;
         this.adminUserDAO.setModelClass(AdminUser.class);
         this.tDTO = new AdminUserDTO();
+    }
+
+    @Override
+    public List<AdminUserDTO> getAdminUserHQL() {
+        return convertListModeltoDTO(adminUserDAO.getAdminUserHQL());
     }
 
 //    @Override

@@ -1,13 +1,15 @@
 package com.vivas.springmvc.base;
 
+import com.google.common.collect.Lists;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by duyot on 8/29/2016.
  */
-public class BaseBusinessImpl<T extends BaseDTO, TDAO extends BaseDAOImpl> implements BaseBusinessInterface<T>{
+public class BaseBusinessImpl<T extends BaseDTO, TDAO extends BaseDAOImpl,TModel extends BaseModel> implements BaseBusinessInterface<T,TModel>{
     public TDAO tdao;
     public T tDTO;
     protected Class<T> entityClass;
@@ -43,6 +45,11 @@ public class BaseBusinessImpl<T extends BaseDTO, TDAO extends BaseDAOImpl> imple
     }
 
     @Override
+    public String saveList(List<T> lstObj) {
+        return tdao.saveList(lstObj);
+    }
+
+    @Override
     public List<T> getAll() {
         return tdao.getAll();
     }
@@ -60,6 +67,28 @@ public class BaseBusinessImpl<T extends BaseDTO, TDAO extends BaseDAOImpl> imple
     @Override
     public List<T> findByProperty(String property, String value) {
         return tdao.findByProperty(property,value);
+    }
+
+    @Override
+    public List convertListModeltoDTO(List<TModel> listModel) {
+        List<BaseDTO> lstForm = Lists.newArrayList();
+        if (listModel != null) {
+            for (TModel model : listModel) {
+                lstForm.add(model.toDTO());
+            }
+        }
+        return lstForm;
+    }
+
+    @Override
+    public List convertListDTOtoModel(List<T> listDTO) {
+        List<BaseModel> lstModel = Lists.newArrayList();
+        if (listDTO != null) {
+            for (T dto : listDTO) {
+                lstModel.add(dto.toModel());
+            }
+        }
+        return lstModel;
     }
 
 

@@ -5,6 +5,7 @@
   Time: 10:55 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String submitRegisterSM = Constants.SEVERLET_MAPPING.USER_CP.SUBMIT_REGISTER;
@@ -14,11 +15,12 @@
     <title>Register Form</title>
 </head>
 <body>
-    <form method="post" >
-        Username: <input type="text" name="username" /><br/>
-        Passwords: <input type="password" name="password" /><br/>
+    <sf:form method="post" modelAttribute="adminUserDTO" >
+        Username:<sf:input path="username"/><br/>
+                 <sf:errors path="username"/>
+        Password:<sf:input path="password"/><br/>
+                 <sf:errors path="password"/>
         <input type="submit" value="Submit" />
-    </form>
-
+    </sf:form>
 </body>
 </html>

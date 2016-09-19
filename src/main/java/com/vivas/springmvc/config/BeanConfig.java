@@ -1,16 +1,12 @@
 package com.vivas.springmvc.config;
 
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jndi.JndiObjectFactoryBean;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -22,6 +18,17 @@ import java.util.Properties;
 public class BeanConfig {
 
     Logger log = LoggerFactory.getLogger(BeanConfig.class);
+
+
+    @Bean
+    public TilesConfigurer tilesConfigurer() {
+        TilesConfigurer tiles = new TilesConfigurer();
+        tiles.setDefinitions(new String[] {
+                "/WEB-INF/layout/tiles.xml"
+        });
+        tiles.setCheckRefresh(true);
+        return tiles;
+    }
 
     /*
         config profile in web.xml, param name: spring.profiles.default
@@ -43,13 +50,19 @@ public class BeanConfig {
     @Bean
     @Profile(value = "prod")
     @Lazy
-    public JndiObjectFactoryBean initDataSourceFromJndi() {
-        JndiObjectFactoryBean jndiObjectFB = new JndiObjectFactoryBean();
-        jndiObjectFB.setJndiName("jdbc/ConnectionPool");
-        jndiObjectFB.setResourceRef(true);
-        jndiObjectFB.setProxyInterface(javax.sql.DataSource.class);
-        log.info("Getting datasource with prod profile with jndi");
-        return jndiObjectFB;
+    public DataSource  initDataSourceFromJndi() {
+//        JndiObjectFactoryBean jndiObjectFB = new JndiObjectFactoryBean();
+//        jndiObjectFB.setJndiName("jdbc/ConnectionPool");
+//        jndiObjectFB.setResourceRef(true);
+//        jndiObjectFB.setProxyInterface(javax.sql.DataSource.class);
+//        log.info("Getting datasource with prod profile with jndi");
+//        DataSource dataSource = (DataSource)jndiObjectFB.getObject();
+//        return dataSource;
+        final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+        dsLookup.setResourceRef(true);
+//        DataSource dataSource = dsLookup.getDataSource("java:comp/env/jdbc/ConnectionPool");
+        DataSource dataSource = dsLookup.getDataSource("java:comp/env/jdbc/ConnectionPool2");
+        return dataSource;
     }
 
     /*
@@ -61,7 +74,10 @@ public class BeanConfig {
         sfb.setDataSource(dataSource);
         sfb.setPackagesToScan(new String[] { "com.vivas.springmvc.persistences.entity" });
         Properties props = new Properties();
-        props.setProperty("dialect", "org.hibernate.dialect.Oracle10gDialect");
+        props.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
+//        props.setProperty("dialect", "org.hibernate.dialect.Oracle10gDialect");
+        props.setProperty("hibernate.show_sql", "true");
+        props.setProperty("hibernate.format_sql", "true");
         sfb.setHibernateProperties(props);
         return sfb;
     }
